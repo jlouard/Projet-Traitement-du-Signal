@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 from scipy import integrate
 from math import *
@@ -18,3 +19,5 @@ def signal_atransmettre(t,alpha):
         return I(pi*alpha*sqrt(1-(2*t/B)**2))/I(pi*alpha)
     else:
         return I(pi*alpha)
+
+
