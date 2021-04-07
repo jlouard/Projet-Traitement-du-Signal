@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import scipy.signal as sig
 
 B = 0.5
-f_c = 1000
+f_c = 50
 N = 1000
 dt = 0.1
 
@@ -29,14 +29,14 @@ plt.figure(figsize = (15, 5))
 
 plt.subplot(1, 2, 1)
 plt.plot(x)
-#plt.plot(x_m)
-#plt.plot(x_md)
+plt.plot(x_m)
+plt.plot(x_md)
 plt.plot(x_mdf)
 
 plt.subplot(1, 2, 2)
 plt.plot(freqs[:N//2], np.abs(np.fft.fft(x)[:N//2]))
 plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_m)[:N//2]))
-#plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_md)[:N//2]))
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_md)[:N//2]))
 plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_mdf)[:N//2]))
 plt.title('spectre')
 
