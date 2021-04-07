@@ -41,3 +41,110 @@ plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_mdf)[:N//2]))
 plt.title('spectre')
 
 plt.show()
+
+
+""" D """
+
+x_m = np.sin(2*np.pi*f_c*T)*x
+x_md = np.sin(2*np.pi*f_c*T)*x_m
+x_mdf = FiltrePB(x_md, 0.1, 2, B)
+
+#Affichage du signal
+plt.figure(figsize = (15, 7))
+plt.subplot(1,2,1)
+plt.plot(T, x, label='$x$')
+plt.plot(T, x_m, label='$x_m$')
+#plt.plot(T, x_md, label='$x_{md}$')
+plt.plot(T, x_mdf, label='$x_{mdf}$')
+plt.legend()
+
+#Affichage du spectre
+freqs = np.linspace(0,2*np.pi*(N-1)/N/dt,N)/2/np.pi
+plt.subplot(1,2,2)
+plt.plot(freqs[:N//5], np.abs(np.fft.fft(x)[:N//5]), label='Spectre de $x$')
+plt.plot(freqs[:N//5], np.abs(np.fft.fft(x_m)[:N//5]), label='Spectre de $x_m$')
+#plt.plot(freqs[:N//5], np.abs(np.fft.fft(x_md)[:N//5]), label='Spectre de $x_{md}$')
+plt.plot(freqs[:N//5], np.abs(np.fft.fft(x_mdf)[:N//5]), label='Spectre de $x_{mdf}$')
+plt.legend()
+
+
+
+
+""" II """
+
+
+x1 = np.cos(2*np.pi*B*T) + 2*np.cos(2*np.pi*1.4*B*T + 3)
+xQ = np.sin(2*np.pi*1.2*B*T) + 1.5*np.cos(2*np.pi*0.8*B*T)
+
+x_m = np.cos(2*np.pi*f_c*T)*x1 + np.sin(2*np.pi*f_c*T)*xQ
+
+x1_md = np.cos(2*np.pi*f_c*T)*x_m
+xQ_md = np.sin(2*np.pi*f_c*T)*x_m
+
+x1_mdf = FiltrePB(x1_md, 0.1, 2, B)
+xQ_mdf = FiltrePB(xQ_md, 0.1, 2, B)
+
+
+#Affichage du signal
+plt.figure(figsize = (15, 7))
+plt.subplot(1,2,1)
+plt.plot(T, x1, label='$x_1$')
+plt.plot(T, xQ, label='$x_Q$')
+#plt.plot(T, x_m, label='$x_m$')
+#plt.plot(T, x1_md, label='$x1_{md}$')
+#plt.plot(T, xQ_md, label='$xQ_{md}$')
+plt.plot(T, x1_mdf, label='$x1_{mdf}$')
+plt.plot(T, xQ_mdf, label='$xQ_{mdf}$')
+plt.legend()
+
+#Affichage du spectre
+freqs = np.linspace(0,2*np.pi*(N-1)/N/dt,N)/2/np.pi
+plt.subplot(1,2,2)
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(x1)[:N//2]), label='Spectre de $x_1$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(xQ)[:N//2]), label='Spectre de $x_Q$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_m)[:N//2]), label='Spectre de $x_m$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(x1_md)[:N//2]), label='Spectre de $x1_{md}$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(xQ_md)[:N//2]), label='Spectre de $xQ_{md}$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(x1_mdf)[:N//2]), label='Spectre de $x1_{mdf}$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(xQ_mdf)[:N//2]), label='Spectre de $xQ_{mdf}$')
+plt.legend()
+
+
+
+""" III """
+
+x = np.cos(2*np.pi*B*T) + 2*np.cos(2*np.pi*1.4*B*T + 3)
+xchap = -sig.hilbert(x).real
+
+x_m = np.cos(2*np.pi*f_c*T)*x + np.sin(2*np.pi*f_c*T)*xchap
+
+x_md = np.cos(2*np.pi*f_c*T)*x_m
+xchap_md = np.sin(2*np.pi*f_c*T)*x_m
+
+x_mdf = FiltrePB(x_md, 0.1, 2, B)
+xchap_mdf = FiltrePB(xchap_md, 0.1, 2, B)
+
+
+#Affichage du signal
+plt.figure(figsize = (15, 7))
+plt.subplot(1,2,1)
+plt.plot(T, x, label='$x$')
+plt.plot(T, xchap, label='$xchap$')
+#plt.plot(T, x_m, label='$x_m$')
+#plt.plot(T, x_md, label='$x_{md}$')
+#plt.plot(T, xchap_md, label='$xchap_{md}$')
+plt.plot(T, x_mdf, label='$x_{mdf}$')
+plt.plot(T, xchap_mdf, label='$xchap_{mdf}$')
+plt.legend()
+
+#Affichage du spectre
+freqs = np.linspace(0,2*np.pi*(N-1)/N/dt,N)/2/np.pi
+plt.subplot(1,2,2)
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(x1)[:N//2]), label='Spectre de $x$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(xQ)[:N//2]), label='Spectre de $xchap$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_m)[:N//2]), label='Spectre de $x_m$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_md)[:N//2]), label='Spectre de $x1_{md}$')
+#plt.plot(freqs[:N//2], np.abs(np.fft.fft(xchap_md)[:N//2]), label='Spectre de $xQ_{md}$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_mdf)[:N//2]), label='Spectre de $x_{mdf}$')
+plt.plot(freqs[:N//2], np.abs(np.fft.fft(xchap_mdf)[:N//2]), label='Spectre de $xchap_{mdf}$')
+plt.legend()
