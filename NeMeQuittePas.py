@@ -114,7 +114,7 @@ plt.legend()
 """ III """
 
 x = np.cos(2*np.pi*B*T) + 2*np.cos(2*np.pi*1.4*B*T + 3)
-xchap = -sig.hilbert(x).real
+xchap = -sig.hilbert(x).imag
 
 x_m = np.cos(2*np.pi*f_c*T)*x + np.sin(2*np.pi*f_c*T)*xchap
 
@@ -148,3 +148,34 @@ plt.plot(freqs[:N//2], np.abs(np.fft.fft(xQ)[:N//2]), label='Spectre de $xchap$'
 plt.plot(freqs[:N//2], np.abs(np.fft.fft(x_mdf)[:N//2]), label='Spectre de $x_{mdf}$')
 plt.plot(freqs[:N//2], np.abs(np.fft.fft(xchap_mdf)[:N//2]), label='Spectre de $xchap_{mdf}$')
 plt.legend()
+
+
+"""
+SSB-SC :
+
+Considérons en entrée un signal de la forme : $x(t) = Acos(2\pi B t)$
+
+Avec la méthode de DSB-SC, on module le signal $x(t)$ en le multipliant par un cosinus de haute fréquence :
+
+   \begin{array}{r c l}
+   x_{m}(t)  & = & x(t)cos(2\pi f_c t) \\
+   & = & Acos(2\pi B t)cos(2\pi f_c t) \\
+   & = & \frac{A}{2} [cos(2\pi (f_c+B) t) + cos(2\pi (f_c-B) t)] \\
+   \end{array}
+
+Dans le cas du DSB-SC on avait donc 2 bandes à transmettre, $f_c-B$ et $f_c+B$. 
+Pour économiser la bande passante, on cherche à sélectionner une seule bande du signal que l'on va transmettre dans le cas de la SSB-SC. Prenons par exemple la bande supérieure (Upper Band) de fréquence $f_c+B$.
+
+On veut donc que :
+   \begin{array}{r c l}
+   x_{m}(t)  & = & Bcos(2\pi (f_c+B) t) \\
+   & = & B[cos(2\pi f_c t)cos(2\pi B t) - sin(2\pi f_c t)sin(2\pi B t)] \\
+   \end{array}
+
+Si on définit $\hat x$ comme :
+$\hat x(t) = Asin(2\pi B t)$, on peut alors reprendre le cas précédent avec $x_I = x$ et $x_Q = \hat x$
+
+Par linéarité, on remarquera que le résultat se généralise pour toute somme dénombrable de signaux sinusoïdaux.
+
+Pour définir $\hat x$, on utilisera la partie réelle de *sig.hilbert(x)*.
+"""
